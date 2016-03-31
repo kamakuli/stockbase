@@ -1,6 +1,6 @@
 %% Main_SearchGoodStock.m
 %% set stock code
-    StockC = '002751';
+    StockC = '600311';
     StockIndex = str2num(StockC);
 %% load list
         %load StockList.mat
@@ -51,13 +51,14 @@
         for i=n+1:Len,
             if( s(i) > s(i-1) )
                 l1 = l1+1;
-            else
-                if( (l1 > 25) )
-                    disp(['find a up timezone, start at:',num2str(StockData(i-l1,1)),'      end at:',num2str(StockData(i,1)), '   last ',num2str(l1),' days']);                    
-                    start = i;
-                    l1 = 0;
+            else                
+                if( (l1 > 15) )
+                    gain = s(i)/s(i-l1); % we shall compare this to index gain
+                    disp(['find a up timezone[i=',num2str(i),'], start at:',num2str(StockData(i-l1,1)),'      end at:',num2str(StockData(i,1)), '   last ',num2str(l1),' days', '  from  ', num2str(s(i-l1)), ' to ', num2str(s(i)), '     gain %', num2str(gain*100-100)]);
                     sum = sum + 1;
                 end
+                start = i;  
+                l1 = 0;
             end
         end
         disp(['There are ', num2str(sum), ' up cycles']);
